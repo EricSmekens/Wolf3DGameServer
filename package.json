@@ -1,0 +1,30 @@
+{
+    "name": "wolf3d-server",
+    "version": "0.0.0",
+    "description": "Try-out for wolf3d webserver",
+    "author": {
+        "name": "Eric Smekens",
+        "email": "ericsmekens@msn.com",
+        "url": "http://github.com/EricSmekens"
+    },
+    "contributors": [{
+        "name": "T-Bear"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com:EricSmekens/Wolf3DGameServer.git"
+    },
+    "main": "server.js",
+    "dependencies": {
+        "pomelo": ">=1.0.4"
+    },
+    "engines": {
+        "node": ">= 0.10.x"
+    },
+    "keywords": [
+        "wolf3d",
+        "server"
+    ],
+    "private": true,
+    "license": "MIT"
+}

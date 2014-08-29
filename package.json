@@ -16,7 +16,7 @@
     },
     "main": "server.js",
     "dependencies": {
-        "pomelo": ">=1.0.4"
+        "underscore": ">=1.7.0"
     },
     "engines": {
         "node": ">= 0.10.x"

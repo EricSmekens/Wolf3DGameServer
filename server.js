@@ -27,13 +27,19 @@ net.createServer(function (sock) {
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function (data) {
         console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
-        players = _.reject(players, function(element) { return element == sock; });
+        players = _.reject(players, function (element) {
+            return element == sock;
+        });
+    });
+
+    socket.on("error", function (err) {
+        console.log('Error occured:' + err);
     });
 
 }).listen(PORT, HOST);
 
 console.log('Server listening on ' + HOST + ':' + PORT);
 
-setInterval(function() {
+setInterval(function () {
     console.log('Players connected: ' + players.length);
 }, 60000);

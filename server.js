@@ -32,7 +32,7 @@ net.createServer(function (sock) {
         });
     });
 
-    socket.on("error", function (err) {
+    sock.on("error", function (err) {
         console.log('Error occured:' + err);
     });
 
@@ -43,3 +43,9 @@ console.log('Server listening on ' + HOST + ':' + PORT);
 setInterval(function () {
     console.log('Players connected: ' + players.length);
 }, 60000);
+
+setInterval(function () {
+    players.forEach(function(player) {
+        player.write('Unblock this!');    
+    });
+}, 1000);

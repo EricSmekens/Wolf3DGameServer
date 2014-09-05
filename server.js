@@ -2,6 +2,7 @@ var net = require('net'),
     _ = require('underscore');
 
 var HOST = '25.220.91.24',
+//var HOST = '127.0.0.1',
     PORT = 8444;
 
 var players = [];
@@ -46,6 +47,6 @@ setInterval(function () {
 
 setInterval(function () {
     players.forEach(function(player) {
-        player.write('Unblock this!');    
+        player.write('Test message!');    
     });
-}, 1000);
+}, 10000);

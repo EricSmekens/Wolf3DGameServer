@@ -15,19 +15,20 @@ net.createServer(function (sock) {
     var playerObject = {};
     playerObject.sock = sock;
     playerObject.id = playerCounter;
-    players.push(playerObject);        
+    
     // Let the player know his own id.
-    sock.write('You are connected with id: ' + playerCounter);
+    sock.write('You are connected with id: ' + playerCounter  + '|');
     playerCounter++;
     
     // Send currently connected players, and let all players know this player did connect.
     players.forEach(function (player) {
-        sock.write('Player[' + player.id + ']: CREATE');
+        sock.write('Player[' + player.id + ']: CREATE'  + '|');
         if (player.sock != sock) {
-            player.sock.write('Player[' + playerObject.id + ']: CREATE');
+            player.sock.write('Player[' + playerObject.id + ']: CREATE' + '|');
         }
     });
-
+    
+    players.push(playerObject);
     
     // We have a connection - a socket object is assigned to the connection automatically
     console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
@@ -37,7 +38,7 @@ net.createServer(function (sock) {
         console.log('Player[' + playerObject.id + ']: ' + data);
         players.forEach(function (player) {
             if (player.sock != sock) {
-                player.sock.write('Player[' + playerObject.id + ']: ' + data);
+                player.sock.write('Player[' + playerObject.id + ']: ' + data  + '|');
             }
         });
     });
@@ -49,7 +50,7 @@ net.createServer(function (sock) {
         //Let the players know, this id needs to be destroyed.
         players.forEach(function (player) {
             if (player.sock != sock) {
-                player.sock.write('Player[' + playerObject.id + ']: DESTROY');
+                player.sock.write('Player[' + playerObject.id + ']: DESTROY'  + '|');
             }
         });
         

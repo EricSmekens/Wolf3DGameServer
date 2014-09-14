@@ -15,10 +15,19 @@ net.createServer(function (sock) {
     var playerObject = {};
     playerObject.sock = sock;
     playerObject.id = playerCounter;
-    players.push(playerObject);
-    
+    players.push(playerObject);        
+    // Let the player know his own id.
     sock.write('You are connected with id: ' + playerCounter);
     playerCounter++;
+    
+    // Send currently connected players, and let all players know this player did connect.
+    players.forEach(function (player) {
+        sock.write('Player[' + player.id + ']: CREATE');
+        if (player.sock != sock) {
+            player.sock.write('Player[' + playerObject.id + ']: CREATE');
+        }
+    });
+
     
     // We have a connection - a socket object is assigned to the connection automatically
     console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
@@ -36,6 +45,14 @@ net.createServer(function (sock) {
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function (data) {
         console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
+        
+        //Let the players know, this id needs to be destroyed.
+        players.forEach(function (player) {
+            if (player.sock != sock) {
+                player.sock.write('Player[' + playerObject.id + ']: DESTROY');
+            }
+        });
+        
         players = _.reject(players, function (element) {
             return element.sock == sock;
         });
@@ -52,9 +69,3 @@ console.log('Server listening on ' + HOST + ':' + PORT);
 setInterval(function () {
     console.log('Players connected: ' + players.length);
 }, 60000);
-
-//setInterval(function () {
-//    players.forEach(function(player) {
-//        player.write('Test message!');    
-//    });
-//}, 10000);

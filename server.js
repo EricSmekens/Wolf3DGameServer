@@ -6,7 +6,7 @@ var HOST = '25.220.91.24',
     PORT = 8444;
 
 var players = [],
-    playerCounter = 0;
+    playerCounter = 1;
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -22,8 +22,10 @@ net.createServer(function (sock) {
     
     // Send currently connected players, and let all players know this player did connect.
     players.forEach(function (player) {
-        sock.write('Player[' + player.id + ']: CREATE'  + '|');
-        if (player.sock != sock) {
+        playerObject.sock.write('Player[' + player.id + ']: CREATE'  + '|');
+        console.log('Sending new player id of old player:' + player.id);
+        if (player.id != playerObject.id) {
+            console.log('Sending old player id of new player:' + playerObject.id);
             player.sock.write('Player[' + playerObject.id + ']: CREATE' + '|');
         }
     });
@@ -37,7 +39,7 @@ net.createServer(function (sock) {
     sock.on('data', function (data) {
         console.log('Player[' + playerObject.id + ']: ' + data);
         players.forEach(function (player) {
-            if (player.sock != sock) {
+            if (player.id != playerObject.id) {
                 player.sock.write('Player[' + playerObject.id + ']: ' + data  + '|');
             }
         });
@@ -49,7 +51,7 @@ net.createServer(function (sock) {
         
         //Let the players know, this id needs to be destroyed.
         players.forEach(function (player) {
-            if (player.sock != sock) {
+            if (player.id != playerObject.id) {
                 player.sock.write('Player[' + playerObject.id + ']: DESTROY'  + '|');
             }
         });

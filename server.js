@@ -21,14 +21,17 @@ net.createServer(function (sock) {
     playerCounter++;
     
     // Send currently connected players, and let all players know this player did connect.
-    players.forEach(function (player) {
-        playerObject.sock.write('Player[' + player.id + ']: CREATE'  + '|');
-        console.log('Sending new player id of old player:' + player.id);
-        if (player.id != playerObject.id) {
-            console.log('Sending old player id of new player:' + playerObject.id);
-            player.sock.write('Player[' + playerObject.id + ']: CREATE' + '|');
-        }
-    });
+    // Delay for 5 seconds, to let him start up.
+    setTimeout(function() {
+        players.forEach(function (player) {
+            playerObject.sock.write('Player[' + player.id + ']: CREATE'  + '|');
+            console.log('Sending new player id of old player:' + player.id);
+            if (player.id != playerObject.id) {
+                console.log('Sending old player id of new player:' + playerObject.id);
+                player.sock.write('Player[' + playerObject.id + ']: CREATE' + '|');
+            }
+        });
+    }, 5000);
     
     players.push(playerObject);
     
